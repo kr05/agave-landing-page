@@ -1,0 +1,23 @@
+{
+    "header": "Envíanos un mensaje.",
+    "description": "Nos encantaría platicar acerca de tu presencia digital, proporcionarte consejos sobre cómo mejorarla y ayudarte a lograr tus objetivos.",
+    "input-name": "Nombre",
+    "input-email": "Correo electronico",
+    "input-services": "Servicios",
+    "input-message": "Como podemos ayudar?",
+    "button-sending": "Enviando...",
+    "button-active": "Enviar",
+    "service-landing-page": "desarrollo web",
+    "service-apps": "apps",
+    "service-seo": "SEO/SEM",
+    "service-chat-bots": "chat bots",
+    "service-graphic-design": "diseño gráfico",
+    "service-sm": "redes sociales",
+    "service-other": "otro",
+    "success": "Gracias! Su mensaje a sido enviado.",
+    "failure": "Por favor intente de nuevo...",
+    "enter-name": "Por favor ingrese su nombre.",
+    "enter-email": "Por favor ingrese su correo electrónico.",
+    "enter-service": "Por favor seleccione un servicio.",
+    "enter-message": "Por favor escriba una descripción corta."
+}

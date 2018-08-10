@@ -20,19 +20,18 @@
     "test:regenerate_screenshots": "mocha test/integration/screenshots-baseline/regenerate.js --timeout=15000"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@material/mwc-button": "^0.1.2",
     "@material/mwc-icon": "^0.1.2",
     "@polymer/app-layout": "^3.0.0-pre.19",
-=======
-    "@polymer/app-layout": "^3.0.0-pre.21",
->>>>>>> origin/template-no-redux
+    "@polymer/app-localize-behavior": "^3.0.0-pre.17",
     "@polymer/lit-element": "^0.5.2",
     "@polymer/paper-dropdown-menu": "^3.0.0-pre.21",
     "@polymer/paper-input": "^3.0.0-pre.21",
     "@polymer/paper-item": "^3.0.0-pre.21",
     "@polymer/paper-listbox": "^3.0.0-pre.21",
     "@webcomponents/webcomponentsjs": "^2.0.0",
+    "i18next": "^11.6.0",
+    "i18next-fetch-backend": "^0.1.0",
     "pwa-helpers": "^0.8.2",
     "web-animations-js": "^2.3.1"
   },

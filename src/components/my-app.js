@@ -22,8 +22,12 @@ import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import { menuIcon } from './my-icons.js';
 import './snack-bar.js';
+import './agave-components/agave-language-picker.js';
 
-class MyApp extends LitElement {
+import { localize } from './mixins/localize-mixin/localize-mixin.js';
+import { i18next } from './mixins/localize-mixin/i18next.js';
+
+class MyApp extends localize(i18next)(LitElement) {
   _render({appTitle, _page, _drawerOpened, _snackbarOpened, _offline, _snackbarMessage, _messageSnackbarOpened}) {
     // Anything that's related to rendering should be done in here.
     return html`
@@ -31,6 +35,7 @@ class MyApp extends LitElement {
       :host {
         --app-drawer-width: 256px;
         display: block;
+        font-family: 'Rubik';
 
         --app-primary-color: #E91E63;
         --app-secondary-color: #293237;
@@ -78,7 +83,6 @@ class MyApp extends LitElement {
       }
 
       .main-title {
-        font-family: 'Rubik';
         text-transform: uppercase;
         /* In the narrow layout, the toolbar is offset by the width of the
         drawer button, and the text looks not centered. Add a padding to
@@ -182,6 +186,14 @@ class MyApp extends LitElement {
         text-align: center;
         padding: 16px;
         font-size: 12px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+      }
+
+      agave-language-picker {
+        margin: 0 16px;
       }
 
       /* Wide layout: when the viewport width is bigger than 460px, layout
@@ -212,9 +224,9 @@ class MyApp extends LitElement {
         </div>
         <button class="menu-btn" title="Menu" on-click="${_ => this._updateDrawerState(true)}">${menuIcon}</button>
         <nav class="toolbar-list">
-          <a selected?="${_page === 'home'}" href="/home">home</a>
-          <a selected?="${_page === 'services'}" href="/services">services</a>
-          <a selected?="${_page === 'contact'}" href="/contact">contact</a>
+          <a selected?="${_page === 'home'}" href="/home">${i18next.t('main:home')}</a>
+          <a selected?="${_page === 'services'}" href="/services">${i18next.t('main:services')}</a>
+          <a selected?="${_page === 'contact'}" href="/contact">${i18next.t('main:contact')}</a>
         </nav>
       </app-toolbar>
 
@@ -225,9 +237,9 @@ class MyApp extends LitElement {
     <app-drawer align="end" opened="${_drawerOpened}"
         on-opened-changed="${e => this._updateDrawerState(e.target.opened)}">
       <nav class="drawer-list">
-        <a selected?="${_page === 'home'}" href="/home">home</a>
-        <a selected?="${_page === 'services'}" href="/services">services</a>
-        <a selected?="${_page === 'contact'}" href="/contact">contact</a>
+        <a selected?="${_page === 'home'}" href="/home">${i18next.t('main:home')}</a>
+        <a selected?="${_page === 'services'}" href="/services">${i18next.t('main:services')}</a>
+        <a selected?="${_page === 'contact'}" href="/contact">${i18next.t('main:contact')}</a>
       </nav>
     </app-drawer>
 
@@ -240,11 +252,11 @@ class MyApp extends LitElement {
     </main>
 
     <footer>
-      <div>All rights reserved. Agave Media 2018.</div>
+      <div>${i18next.t('main:footer')}</div>
+      <agave-language-picker on-language-change="${e => this._onLanguageChange(e.detail.languageCode)}"></agave-language-picker>
     </footer>
 
-    <snack-bar active?="${_snackbarOpened}">
-        You are now ${_offline ? 'offline' : 'online'}.</snack-bar>
+    <snack-bar active?="${_snackbarOpened}">${_offline ? i18next.t('main:offline') : i18next.t('main:online')}.</snack-bar>
     <snack-bar active?="${_messageSnackbarOpened}">${_snackbarMessage}</snack-bar>
     `;
   }
@@ -277,7 +289,7 @@ class MyApp extends LitElement {
   }
 
   _didRender(properties, changeList) {
-    if ('_page' in changeList) {
+    if (changeList && '_page' in changeList) {
       const pageTitle = properties.appTitle + ' - ' + changeList._page;
       updateMetadata({
           title: pageTitle,
@@ -290,6 +302,10 @@ class MyApp extends LitElement {
   _layoutChanged(isWideLayout) {
     // The drawer doesn't make sense in a wide layout, so if it's opened, close it.
     this._updateDrawerState(false);
+  }
+
+  _onLanguageChange(languageCode) {
+    i18next.changeLanguage(languageCode);
   }
 
   _openSnackar(message) {

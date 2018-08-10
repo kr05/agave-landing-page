@@ -1,0 +1,23 @@
+{
+    "header": "Send us a message.",
+    "description": "We are experts at creating solutions, but it all starts with a conversation. Let’s have a talk to discuss how we can bring your idea to life.",
+    "input-name": "Name",
+    "input-email": "Email",
+    "input-services": "Services",
+    "input-message": "How can we help?",
+    "button-sending": "Sending...",
+    "button-active": "Send request",
+    "service-landing-page": "landing page",
+    "service-apps": "apps and PWAs",
+    "service-seo": "SEO",
+    "service-chat-bots": "chat bots",
+    "service-graphic-design": "graphic design",
+    "service-sm": "social media",
+    "service-other": "other",
+    "success": "Thank you! Your message has been sent.",
+    "failure": "Please try again later...",
+    "enter-name": "Please enter a name.",
+    "enter-email": "Please enter an email.",
+    "enter-service": "Please select a service.",
+    "enter-message": "Please enter a brief description."
+}

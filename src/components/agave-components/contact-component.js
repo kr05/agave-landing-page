@@ -8,7 +8,10 @@ import '@polymer/paper-input/paper-textarea.js';
 import "@material/mwc-button"
 import { facebook, instagram, twitter } from '../my-icons.js';
 
-class ContactComponent extends LitElement {
+import { localize } from '../mixins/localize-mixin/localize-mixin.js';
+import { i18next } from '../mixins/localize-mixin/i18next.js';
+
+class ContactComponent extends localize(i18next)(LitElement) {
     static get properties() {
         return {
             clientName: String,
@@ -36,6 +39,7 @@ class ContactComponent extends LitElement {
             <style>
                 :host {
                     display: flex;
+                    font-family: 'Rubik';
                 }
 
                 mwc-button {
@@ -154,8 +158,8 @@ class ContactComponent extends LitElement {
             </style>
 
             <div class=lc>
-                <div class="header">Send us a message.</div>
-                <div class="text">We are experts at creating solutions, but it all starts with a conversation. Let’s have a talk to discuss how we can bring your idea to life.</div>
+                <div class="header">${i18next.t('contact:header')}</div>
+                <div class="text">${i18next.t('contact:description')}</div>
                 <div class="social-icons">
                     <a target="_blank" href="https://www.facebook.com/AgaveMedia" tabindex="-1"><button>${facebook}</button></a>
                     <a target="_blank" href="https://www.facebook.com/AgaveMedia" tabindex="-1"><button>${instagram}</button></a>
@@ -163,21 +167,21 @@ class ContactComponent extends LitElement {
                 </div>
             </div>
             <div class=rc>
-                <paper-input no-label-float label="Name" value="${clientName}" on-value-changed="${e => this.onInputChanged('clientName', e)}"></paper-input>
-                <paper-input no-label-float label="Email" value="${clientEmail}" on-value-changed="${e => this.onInputChanged('clientEmail', e)}"></paper-input>
-                <paper-dropdown-menu class=service dynamic-align no-label-float label="Services">
+                <paper-input no-label-float label="${i18next.t('contact:input-name')}" value="${clientName}" on-value-changed="${e => this.onInputChanged('clientName', e)}"></paper-input>
+                <paper-input no-label-float label="${i18next.t('contact:input-email')}" value="${clientEmail}" on-value-changed="${e => this.onInputChanged('clientEmail', e)}"></paper-input>
+                <paper-dropdown-menu class=service dynamic-align no-label-float label="${i18next.t('contact:input-services')}">
                     <paper-listbox slot="dropdown-content" selected="${clientService}" attr-for-selected="name" on-selected-changed="${e => this.onInputChanged('clientService', e)}">
-                        <paper-item name="landing page">landing page</paper-item>
-                        <paper-item name="apps and PWAs">apps and PWAs</paper-item>
-                        <paper-item name="SEO">SEO</paper-item>
-                        <paper-item name="chat bots">chat bots</paper-item>
-                        <paper-item name="graphic design">graphic design</paper-item>
-                        <paper-item name="social media">social media</paper-item>
-                        <paper-item name="other">other</paper-item>
+                        <paper-item name="landing page">${i18next.t('contact:service-landing-page')}</paper-item>
+                        <paper-item name="apps and PWAs">${i18next.t('contact:service-apps')}</paper-item>
+                        <paper-item name="SEO">${i18next.t('contact:service-seo')}</paper-item>
+                        <paper-item name="chat bots">${i18next.t('contact:service-chat-bots')}</paper-item>
+                        <paper-item name="graphic design">${i18next.t('contact:service-graphic-design')}</paper-item>
+                        <paper-item name="social media">${i18next.t('contact:service-sm')}</paper-item>
+                        <paper-item name="other">${i18next.t('contact:service-other')}</paper-item>
                     </paper-listbox>
                 </paper-dropdown-menu>
-                <paper-textarea class="message" no-label-float label="How can we help?" value="${clientMessage}" on-value-changed="${e => this.onInputChanged('clientMessage', e)}"></paper-textarea>
-                <mwc-button on-click="${e => this._sendMessage(e)}" raised>${waiting ? 'Sending...' : 'Send request'}</mwc-button>
+                <paper-textarea class="message" no-label-float label="${i18next.t('contact:input-message')}" value="${clientMessage}" on-value-changed="${e => this.onInputChanged('clientMessage', e)}"></paper-textarea>
+                <mwc-button on-click="${e => this._sendMessage(e)}" raised>${waiting ? i18next.t('contact:button-sending') : i18next.t('contact:button-active')}</mwc-button>
             </div>
         `;
     }
@@ -206,11 +210,13 @@ class ContactComponent extends LitElement {
         var sendMessage = firebase.functions().httpsCallable('sendMessage');
         sendMessage({messageData: messageData}).then(result => {
             // Read result of the Cloud Function.
-            this.dispatchEvent(new CustomEvent('opensnackbar', {detail: 'Thank you! Your message has been sent.', bubbles: true, composed: true}));
+            var msg = i18next.t('contact:success');
+            this.dispatchEvent(new CustomEvent('opensnackbar', {detail: msg, bubbles: true, composed: true}));
             this.clearValues();
         }).catch(err => {
             console.log('ERR:', err);
-            this.dispatchEvent(new CustomEvent('opensnackbar', {detail: 'Please try again...', bubbles: true, composed: true}));
+            var msg = i18next.t('contact:failure');
+            this.dispatchEvent(new CustomEvent('opensnackbar', {detail: msg, bubbles: true, composed: true}));
         }).then(() => {
             this.waiting = false;
         });
@@ -219,16 +225,20 @@ class ContactComponent extends LitElement {
     nullInputs() {
         switch (true) {
             case (!this.clientName):
-                this.dispatchEvent(new CustomEvent('opensnackbar', {detail: 'Please enter a name.', bubbles: true, composed: true}));
+                var msg = i18next.t('contact:enter-name');
+                this.dispatchEvent(new CustomEvent('opensnackbar', {detail: msg, bubbles: true, composed: true}));
                 return true;
             case (!this.clientEmail):
-                this.dispatchEvent(new CustomEvent('opensnackbar', {detail: 'Please enter an email.', bubbles: true, composed: true}));
+                var msg = i18next.t('contact:enter-email');
+                this.dispatchEvent(new CustomEvent('opensnackbar', {detail: msg, bubbles: true, composed: true}));
                 return true;
             case (!this.clientService):
-                this.dispatchEvent(new CustomEvent('opensnackbar', {detail: 'Please select a service.', bubbles: true, composed: true}));
+                var msg = i18next.t('contact:enter-service');
+                this.dispatchEvent(new CustomEvent('opensnackbar', {detail: msg, bubbles: true, composed: true}));
                 return true;
             case (!this.clientMessage):
-                this.dispatchEvent(new CustomEvent('opensnackbar', {detail: 'Please enter a brief description.', bubbles: true, composed: true}));
+                var msg = i18next.t('contact:enter-message');
+                this.dispatchEvent(new CustomEvent('opensnackbar', {detail: msg, bubbles: true, composed: true}));
                 return true;
         }
         return false;

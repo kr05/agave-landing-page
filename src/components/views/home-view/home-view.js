@@ -3,7 +3,10 @@ import { PageViewElement } from '../page-view-element.js';
 import "../../agave-components/contact-component.js";
 import "../../agave-components/service-header.js";
 
-class HomeView extends PageViewElement {
+import { localize } from '../../mixins/localize-mixin/localize-mixin.js';
+import { i18next } from '../../mixins/localize-mixin/i18next.js';
+
+class HomeView extends localize(i18next)(PageViewElement) {
 
 static get properties() {
     return {
@@ -114,25 +117,25 @@ _render({}) {
 
 
       <section class="main">
-        <h2>We’re a full-service digital agency focused on powering business growth.</h2>
+        <h2>${i18next.t('main-header')}</h2>
       </section>
       
-      <service-header class=intro-header reverse header="We specialize in software development, digital marketing campaigns, social strategy, content creation, and everything in between." description="At Agave Media, we specialize in creating software solutions and digital marketing services for all types of organizations. We understand that finding the right tools to promote yourself can be difficult, and DIY website builders still require a certain level of proficiency. We offer the following services that aim to streamline the operation of your business and increase traffic." icon="images/introIcon.png"></service-header>
-      <service-header class=software-header service="Software development" description="From conception and strategy to design and implementation, we can build personalized mobile apps and integrated systems. We offer free project proposals that come with a breakdown of the project, associated costs, and timelines." icon="images/softwareIcon.png"></service-header>
+      <service-header class=intro-header reverse header="${i18next.t('intro-header')}" description="${i18next.t('intro-description')}" icon="images/introIcon.png"></service-header>
+      <service-header class=software-header service="${i18next.t('software-header')}" description="${i18next.t('software-description')}" icon="images/softwareIcon.png"></service-header>
       <div class="software-list">
-          <span>Web Development</span>
-          <span>UI/UX Design</span>
-          <span>Native apps</span>
-          <span>E-commerce</span>
-          <span>Chat bots</span>
+          <span>${i18next.t('web-dev-title')}</span>
+          <span>${i18next.t('ui-title')}</span>
+          <span>${i18next.t('native-title')}</span>
+          <span>${i18next.t('e-commerce-title')}</span>
+          <span>${i18next.t('chat-bots-title')}</span>
       </div>
-      <service-header class=marketing-header reverse service="Digital marketing" description="The primary way Agave Media engages in digital strategy is through our digital marketing retainers. These programs bring the best of our digital strategy with SEO, pay-per-click advertising, social media and content strategy. As we execute, we continue to refine strategies and execution based on analytics data." icon="images/marketingIcon.png"></service-header>
+      <service-header class=marketing-header reverse service="${i18next.t('marketing-header')}" description="${i18next.t('marketing-description')}" icon="images/marketingIcon.png"></service-header>
       <div class=marketing-list>
-          <span>Social media strategy</span>
-          <span>Graphic design</span>
-          <span>SEO/SEM</span>
-          <span>Influencer engagement</span>
-          <span>Social media advertisement</span>
+          <span>${i18next.t('sm-strategy-title')}</span>
+          <span>${i18next.t('graphic-design-title')}</span>
+          <span>${i18next.t('seo-title')}</span>
+          <span>${i18next.t('influencer-title')}</span>
+          <span>${i18next.t('sm-advertisement-title')}</span>
       </div>
       <contact-component footer></contact-component>
     `;
